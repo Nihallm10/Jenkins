@@ -48,7 +48,7 @@ pipeline {
         always {
             script {
                 // Archive log files manually since the workspace is cleaned after pipeline execution
-                archiveArtifacts artifacts: '**/', fingerprint: true
+                archiveArtifacts artifacts: '**/.log', fingerprint: true
             }
         }
         success {
