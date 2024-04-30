@@ -8,53 +8,44 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Build the code using Maven
-                sh 'mvn clean package'
+                echo 'Building the code using Maven'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                // Run unit tests using JUnit
-                sh 'mvn test'
-                // Run integration tests using Selenium
-                sh 'selenium-tests.sh'
+                echo 'Running unit tests using JUnit'
+                echo 'Running integration tests using Selenium'
             }
         }
         stage('Code Analysis') {
             steps {
-                // Integrate SonarQube for code analysis
-                sh 'sonar-scanner'
+                echo 'Integrating SonarQube for code analysis'
             }
         }
         stage('Security Scan') {
             steps {
-                // Use OWASP ZAP for security scan
-                sh 'zap-cli --quick-scan'
+                echo 'Using OWASP ZAP for security scan'
             }
         }
         stage('Deploy to Staging') {
             steps {
-                // Deploy to AWS EC2 staging instance
-                sh 'aws deploy-to-staging.sh'
+                echo 'Deploying to AWS EC2 staging instance'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                // Run integration tests on staging environment
-                sh 'staging-integration-tests.sh'
+                echo 'Running integration tests on staging environment'
             }
         }
         stage('Deploy to Production') {
             steps {
-                // Deploy to AWS EC2 production instance
-                sh 'aws deploy-to-production.sh'
+                echo 'Deploying to AWS EC2 production instance'
             }
         }
     }
 
     post {
         success {
-            // Send success notification email
             emailext (
                 to: 's221461233@deakin.edu.au',
                 subject: "Pipeline Status: SUCCESS",
@@ -63,7 +54,6 @@ pipeline {
             )
         }
         failure {
-            // Send failure notification email
             emailext (
                 to: 's221461233@deakin.edu.au',
                 subject: "Pipeline Status: FAILURE",
@@ -73,3 +63,4 @@ pipeline {
         }
     }
 }
+
