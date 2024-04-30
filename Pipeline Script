@@ -48,7 +48,7 @@ pipeline {
         always {
             script {
                 // Archive log files manually since the workspace is cleaned after pipeline execution
-                archiveArtifacts artifacts: '**/.log', fingerprint: true
+                archiveArtifacts artifacts: '**/', fingerprint: true
             }
         }
         success {
@@ -56,7 +56,7 @@ pipeline {
                 to: 'nihal.nazeer11@gmail.com',
                 subject: "Pipeline Status: SUCCESS",
                 body: "The pipeline has completed successfully.",
-                attachmentsPattern: "*.log"
+                attachmentsPattern: "**.log"
             )
         }
         failure {
