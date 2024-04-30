@@ -46,7 +46,10 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: '*.log', fingerprint: true
+            script {
+                // Archive log files manually since the workspace is cleaned after pipeline execution
+                archiveArtifacts artifacts: '**/*.log', fingerprint: true
+            }
         }
         success {
             emailext (
