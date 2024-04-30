@@ -46,14 +46,14 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: '**/*.log', fingerprint: true
+            archiveArtifacts artifacts: '*.log', fingerprint: true
         }
         success {
             emailext (
                 to: 'nihal.nazeer11@gmail.com',
                 subject: "Pipeline Status: SUCCESS",
                 body: "The pipeline has completed successfully.",
-                attachmentsPattern: "**/*.log"
+                attachmentsPattern: "*.log"
             )
         }
         failure {
@@ -61,7 +61,7 @@ pipeline {
                 to: 'nihal.nazeer11@gmail.com',
                 subject: "Pipeline Status: FAILURE",
                 body: "The pipeline has failed. Please check the logs for details.",
-                attachmentsPattern: "**/*.log"
+                attachmentsPattern: "*.log"
             )
         }
     }
