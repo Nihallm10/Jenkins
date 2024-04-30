@@ -47,7 +47,7 @@ pipeline {
     post {
         success {
             emailext (
-                to: 's221461233@deakin.edu.au',
+                to: 'nihal.nazeer11@gmail.com',
                 subject: "Pipeline Status: SUCCESS",
                 body: "The pipeline has completed successfully.",
                 attachmentsPattern: "**/*.log"
@@ -55,7 +55,7 @@ pipeline {
         }
         failure {
             emailext (
-                to: 's221461233@deakin.edu.au',
+                to: 'nihal.nazeer11@gmail.com',
                 subject: "Pipeline Status: FAILURE",
                 body: "The pipeline has failed. Please check the logs for details.",
                 attachmentsPattern: "**/*.log"
