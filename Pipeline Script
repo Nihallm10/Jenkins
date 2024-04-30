@@ -1,0 +1,75 @@
+pipeline {
+    agent any
+
+    triggers {
+        pollSCM('* * * * *') // Poll SCM every minute
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                // Build the code using Maven
+                sh 'mvn clean package'
+            }
+        }
+        stage('Unit and Integration Tests') {
+            steps {
+                // Run unit tests using JUnit
+                sh 'mvn test'
+                // Run integration tests using Selenium
+                sh 'selenium-tests.sh'
+            }
+        }
+        stage('Code Analysis') {
+            steps {
+                // Integrate SonarQube for code analysis
+                sh 'sonar-scanner'
+            }
+        }
+        stage('Security Scan') {
+            steps {
+                // Use OWASP ZAP for security scan
+                sh 'zap-cli --quick-scan'
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                // Deploy to AWS EC2 staging instance
+                sh 'aws deploy-to-staging.sh'
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                // Run integration tests on staging environment
+                sh 'staging-integration-tests.sh'
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                // Deploy to AWS EC2 production instance
+                sh 'aws deploy-to-production.sh'
+            }
+        }
+    }
+
+    post {
+        success {
+            // Send success notification email
+            emailext (
+                to: 's221461233@deakin.edu.au',
+                subject: "Pipeline Status: SUCCESS",
+                body: "The pipeline has completed successfully.",
+                attachmentsPattern: "**/*.log"
+            )
+        }
+        failure {
+            // Send failure notification email
+            emailext (
+                to: 's221461233@deakin.edu.au',
+                subject: "Pipeline Status: FAILURE",
+                body: "The pipeline has failed. Please check the logs for details.",
+                attachmentsPattern: "**/*.log"
+            )
+        }
+    }
+}
