@@ -1,71 +1,83 @@
 pipeline {
     agent any
-
-    triggers {
-        pollSCM('* * * * *') // Poll SCM every minute
-    }
-
     stages {
-        stage('Build') {
+        stage("Build") {
             steps {
-                echo 'Building the code using Maven'
+                echo "Building using Gradle"
             }
         }
-        stage('Unit and Integration Tests') {
+        stage("Unit and Integration Tests") {
             steps {
-                echo 'Running unit tests using JUnit'
-                echo 'Running integration tests using Selenium'
+                echo "Running unit tests with JUnit"
+                echo "Running integration tests with Postman"
+            }
+            post {
+                success {
+                    emailext attachLog: true,
+                    subject: "Completed both the tests",
+                    body: "Completed both the tests",
+                    to: "nihal.noor11@gmail.com"
+                }
+                failure {
+                    emailext attachLog: true,
+                    subject: "Failed both the tests",
+                    body: "Failed both the tests",
+                    to: "nihal.noor11@gmail.com"
+                }
             }
         }
-        stage('Code Analysis') {
+        stage("Code Analysis") {
             steps {
-                echo 'Integrating SonarQube for code analysis'
+                echo "Analyzing code quality using SonarQube"
             }
         }
-        stage('Security Scan') {
+        stage("Security Scan") {
             steps {
-                echo 'Using OWASP ZAP for security scan'
+                echo "Performing security scan with OWASP ZAP"
+            }
+            post {
+                success {
+                    emailext attachLog: true,
+                    subject: "Completed security scan",
+                    body: "Completed security scan",
+                    to: "nihal.noor11@gmail.com"
+                }
+                failure {
+                    emailext attachLog: true,
+                    subject: "Failed security scan",
+                    body: "Failed security scan",
+                    to: 'nihal.noor11@gmail.com'
+                }
             }
         }
-        stage('Deploy to Staging') {
+        stage("Deploy to Staging") {
             steps {
-                echo 'Deploying to AWS EC2 staging instance'
+                echo "Deploying to Staging environment using Kubernetes"
             }
         }
-        stage('Integration Tests on Staging') {
+        stage("Integration Tests on Staging") {
             steps {
-                echo 'Running integration tests on staging environment'
+                echo "Running integration tests on Staging environment"
             }
         }
-        stage('Deploy to Production') {
+        stage("Deploy to Production") {
             steps {
-                echo 'Deploying to AWS EC2 production instance'
+                echo "Deploying to Production environment using Kubernetes"
             }
         }
     }
-
     post {
-        always {
-            script {
-                // Archive log files manually since the workspace is cleaned after pipeline execution
-                archiveArtifacts artifacts: '**/', fingerprint: true
-            }
-        }
         success {
-            emailext (
-                to: 'nihal.nazeer11@gmail.com',
-                subject: "Pipeline Status: SUCCESS",
-                body: "The pipeline has completed successfully.",
-                attachmentsPattern: "**.log"
-            )
+            emailext attachLog: true,
+            subject: "Pipeline success",
+            body: "Pipeline has been created successfully!",
+            to: "nihal.noor11@gmail.com"
         }
         failure {
-            emailext (
-                to: 'nihal.nazeer11@gmail.com',
-                subject: "Pipeline Status: FAILURE",
-                body: "The pipeline has failed. Please check the logs for details.",
-                attachmentsPattern: "*.log"
-            )
+            emailext attachLog: true,
+            subject: "Pipeline failed",
+            body: "The pipeline has failed. Please take necessary actions.",
+            to: "nihal.noor11@gmail.com"
         }
     }
 }
