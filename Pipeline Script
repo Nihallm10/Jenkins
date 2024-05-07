@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                echo "Building using Gradlee"
+                echo "Building using Gradle"
             }
         }
         stage("Unit and Integration Tests") {
