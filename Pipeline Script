@@ -62,7 +62,7 @@ pipeline {
         }
         stage("Deploy to Production") {
             steps {
-                echo "Deploying to Production environment using Kubernetes"
+                echo "Deploying to Production environment using Kubernetess"
             }
         }
     }
