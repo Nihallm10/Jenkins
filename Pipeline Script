@@ -1,59 +1,30 @@
-
 pipeline {
     agent any
     stages {
         stage("Build") {
             steps {
-                echo "Building using Gradles"
+                echo "Building using Maven"
             }
         }
         stage("Unit and Integration Tests") {
             steps {
-                echo "Running unit tests with JUnit"
-                echo "Running integration tests with Postman"
-            }
-            post {
-                success {
-                    emailext attachLog: true,
-                    subject: "Completed both the tests",
-                    body: "Completed both the tests",
-                    to: "nihal.noor11@gmail.com"
-                }
-                failure {
-                    emailext attachLog: true,
-                    subject: "Failed both the tests",
-                    body: "Failed both the tests",
-                    to: "nihal.noor11@gmail.com"
-                }
+                echo "Running unit tests with TestNG"
+                echo "Running integration tests with Newman"
             }
         }
         stage("Code Analysis") {
             steps {
-                echo "Analyzing code quality using SonarQube"
+                echo "Analyzing code quality using Checkstyle"
             }
         }
         stage("Security Scan") {
             steps {
-                echo "Performing security scan with OWASP ZAP"
-            }
-            post {
-                success {
-                    emailext attachLog: true,
-                    subject: "Completed security scan",
-                    body: "Completed security scan",
-                    to: "nihal.noor11@gmail.com"
-                }
-                failure {
-                    emailext attachLog: true,
-                    subject: "Failed security scan",
-                    body: "Failed security scan",
-                    to: 'nihal.noor11@gmail.com'
-                }
+                echo "Performing security scan with Nikto"
             }
         }
         stage("Deploy to Staging") {
             steps {
-                echo "Deploying to Staging environment using Kubernetes"
+                echo "Deploying to Staging environment using Docker"
             }
         }
         stage("Integration Tests on Staging") {
@@ -63,7 +34,7 @@ pipeline {
         }
         stage("Deploy to Production") {
             steps {
-                echo "Deploying to Production environment using Kubernetess"
+                echo "Deploying to Production environment using Helm"
             }
         }
     }
@@ -78,6 +49,34 @@ pipeline {
             emailext attachLog: true,
             subject: "Pipeline failed",
             body: "The pipeline has failed. Please take necessary actions.",
+            to: "nihal.noor11@gmail.com"
+        }
+    }
+    post {
+        success {
+            emailext attachLog: true,
+            subject: "Tests Successfull",
+            body: "Tests Successfull",
+            to: "nihal.noor11@gmail.com"
+        }
+        failure {
+            emailext attachLog: true,
+            subject: "Failed both the tests",
+            body: "Failed both the tests",
+            to: "nihal.noor11@gmail.com"
+        }
+    }
+    post {
+        success {
+            emailext attachLog: true,
+            subject: "Completed security scan",
+            body: "Completed security scan",
+            to: "nihal.noor11@gmail.com"
+        }
+        failure {
+            emailext attachLog: true,
+            subject: "Failed security scan",
+            body: "Failed security scan",
             to: "nihal.noor11@gmail.com"
         }
     }
