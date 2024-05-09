@@ -37,15 +37,15 @@ pipeline {
             }
             post {
                 success {
-                    subject: "Test Successfull",
-                    body: "Test Successfull",
                     emailext attachLog: true,
+                    subject: "Completed security scan",
+                    body: "Completed security scan",
                     to: "nihal.noor11@gmail.com"
                 }
                 failure {
-                    subject: "Test Failed",
-                    body: "Test Failed",
                     emailext attachLog: true,
+                    subject: "Failed security scan",
+                    body: "Failed security scan",
                     to: 'nihal.noor11@gmail.com'
                 }
             }
@@ -68,15 +68,15 @@ pipeline {
     }
     post {
         success {
-            subject: "Pipeline success",
             emailext attachLog: true,
-            body: "Pipeline creation successfully!",
+            subject: "Pipeline success",
+            body: "Pipeline has been created successfully!",
             to: "nihal.noor11@gmail.com"
         }
         failure {
             emailext attachLog: true,
             subject: "Pipeline failed",
-            body: "The pipeline failed",
+            body: "The pipeline has failed. Please take necessary actions.",
             to: "nihal.noor11@gmail.com"
         }
     }
