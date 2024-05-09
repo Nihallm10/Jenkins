@@ -14,14 +14,14 @@ pipeline {
             post {
                 success {
                     emailext attachLog: true,
-                    subject: "Completed both the tests",
-                    body: "Completed both the tests",
+                    subject: "Unit and Integration Tests Passed",
+                    body: "Both unit and integration tests have passed successfully.",
                     to: "nihal.noor11@gmail.com"
                 }
                 failure {
                     emailext attachLog: true,
-                    subject: "Failed both the tests",
-                    body: "Failed both the tests",
+                    subject: "Unit and Integration Tests Failed",
+                    body: "Either unit or integration tests have failed. Please investigate.",
                     to: "nihal.noor11@gmail.com"
                 }
             }
@@ -38,14 +38,14 @@ pipeline {
             post {
                 success {
                     emailext attachLog: true,
-                    subject: "Completed security scan",
-                    body: "Completed security scan",
+                    subject: "Security Scan Passed",
+                    body: "Security scan completed successfully with no issues found.",
                     to: "nihal.noor11@gmail.com"
                 }
                 failure {
                     emailext attachLog: true,
-                    subject: "Failed security scan",
-                    body: "Failed security scan",
+                    subject: "Security Scan Failed",
+                    body: "Security scan detected vulnerabilities. Please take immediate action.",
                     to: 'nihal.noor11@gmail.com'
                 }
             }
@@ -69,14 +69,14 @@ pipeline {
     post {
         success {
             emailext attachLog: true,
-            subject: "Pipeline success",
-            body: "Pipeline has been created successfully!",
+            subject: "Pipeline Success",
+            body: "The pipeline has completed successfully.",
             to: "nihal.noor11@gmail.com"
         }
         failure {
             emailext attachLog: true,
-            subject: "Pipeline failed",
-            body: "The pipeline has failed. Please take necessary actions.",
+            subject: "Pipeline Failed",
+            body: "The pipeline has failed. Immediate action required.",
             to: "nihal.noor11@gmail.com"
         }
     }
