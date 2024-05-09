@@ -61,8 +61,8 @@ pipeline {
         }
         failure {
             emailext attachLog: true,
-            subject: "Failed both the tests",
-            body: "Failed both the tests",
+            subject: "Tests Failed",
+            body: "Tests Failed",
             to: "nihal.noor11@gmail.com"
         }
     }
