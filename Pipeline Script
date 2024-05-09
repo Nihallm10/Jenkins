@@ -37,14 +37,12 @@ pipeline {
             }
             post {
                 success {
-                    
                     subject: "Test Successfull",
                     body: "Test Successfull",
                     emailext attachLog: true,
                     to: "nihal.noor11@gmail.com"
                 }
                 failure {
-                    
                     subject: "Test Failed",
                     body: "Test Failed",
                     emailext attachLog: true,
@@ -70,7 +68,6 @@ pipeline {
     }
     post {
         success {
-            
             subject: "Pipeline success",
             emailext attachLog: true,
             body: "Pipeline creation successfully!",
