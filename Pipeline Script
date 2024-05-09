@@ -11,6 +11,20 @@ pipeline {
                 echo "Running unit tests with TestNG"
                 echo "Running integration tests with Newman"
             }
+            post {
+                success {
+                    emailext attachLog: true,
+                    subject: "Completed both the tests",
+                    body: "Completed both the tests",
+                    to: "nihal.noor11@gmail.com"
+                }
+                failure {
+                    emailext attachLog: true,
+                    subject: "Failed both the tests",
+                    body: "Failed both the tests",
+                    to: "nihal.noor11@gmail.com"
+                }
+            }
         }
         stage("Code Analysis") {
             steps {
@@ -20,6 +34,22 @@ pipeline {
         stage("Security Scan") {
             steps {
                 echo "Performing security scan with Nikto"
+            }
+            post {
+                success {
+                    
+                    subject: "Test Successfull",
+                    body: "Test Successfull",
+                    emailext attachLog: true,
+                    to: "nihal.noor11@gmail.com"
+                }
+                failure {
+                    
+                    subject: "Test Failed",
+                    body: "Test Failed",
+                    emailext attachLog: true,
+                    to: 'nihal.noor11@gmail.com'
+                }
             }
         }
         stage("Deploy to Staging") {
@@ -40,43 +70,16 @@ pipeline {
     }
     post {
         success {
-            emailext attachLog: true,
+            
             subject: "Pipeline success",
-            body: "Pipeline has been created successfully!",
+            emailext attachLog: true,
+            body: "Pipeline creation successfully!",
             to: "nihal.noor11@gmail.com"
         }
         failure {
             emailext attachLog: true,
             subject: "Pipeline failed",
-            body: "The pipeline has failed. Please take necessary actions.",
-            to: "nihal.noor11@gmail.com"
-        }
-    }
-    post {
-        success {
-            emailext attachLog: true,
-            subject: "Tests Successfull",
-            body: "Tests Successfull",
-            to: "nihal.noor11@gmail.com"
-        }
-        failure {
-            emailext attachLog: true,
-            subject: "Tests Failed",
-            body: "Tests Failed",
-            to: "nihal.noor11@gmail.com"
-        }
-    }
-    post {
-        success {
-            emailext attachLog: true,
-            subject: "Completed security scan",
-            body: "Completed security scan",
-            to: "nihal.noor11@gmail.com"
-        }
-        failure {
-            emailext attachLog: true,
-            subject: "Failed security scan",
-            body: "Failed security scan",
+            body: "The pipeline failed",
             to: "nihal.noor11@gmail.com"
         }
     }
